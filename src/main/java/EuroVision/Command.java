@@ -10,6 +10,7 @@ public class Command {
 	public Command(String commandType, String[] parameters) {
 		this.commandType = CommandType.commandForString(commandType);
 		this.parameters = parameters;
+		checkIfValid();
 	}
 	
 	public boolean isValid() {
@@ -21,5 +22,11 @@ public class Command {
 			}
 		}
 		return true;
+	}
+	
+	private void checkIfValid() {
+		if (!isValid()) {
+			commandType = CommandType.INVALID;
+		}
 	}
 }

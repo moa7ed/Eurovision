@@ -11,16 +11,22 @@ import org.json.simple.parser.ParseException;
 public class Program {
 	
 	public void runCommand(String[] args) throws IOException, ParseException {
+		if (args.length == 0) {
+			System.out.println("Please use \"load\" or \"results\" commands");
+			return;
+		}
 		Command command = new Command(args[0], Arrays.copyOfRange(args, 1, args.length));
-		if (command.isValid()) {
-			switch(command.commandType) {
-			   case LOAD :
-				   System.out.println(JSONHelper.loadJSONFile(args[1], args[2]));
-				   break;
-			   case RESULTS :
-				   printVotesFor(args[1], args[2]);
-			}
-			
+		switch(command.commandType) {
+		   case LOAD :
+			   System.out.println(JSONHelper.loadJSONFile(args[1], args[2]));
+			   break;
+		   case RESULTS :
+			   printVotesFor(args[1], args[2]);
+			   break;
+			case INVALID:
+				System.out.println("Invalid command to run, please run eigher: \n"
+						+ "   eurovision load <filePath> <year>\n"
+						+ "or eurovision results <country> <year>");
 		}
 	}
 	
