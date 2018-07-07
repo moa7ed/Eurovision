@@ -19,7 +19,6 @@ public class JSONHelper {
 
 	public static String loadJSONFile(String inputFilePath, String year) throws IOException, ParseException {
 		JSONArray jsonArray = readJSONData(inputFilePath);
-		
 		if (jsonArray != null) {
 			File file = new File(JSONStore + year + ".json");
 			if (file.exists()) {
@@ -30,7 +29,7 @@ public class JSONHelper {
 			return "load completed!";
 		}
 		else {
-			return "Exception happened while loading";
+			return "File Path is wrong or doesn't contain the right JSON format";
 		}
 	}
 
