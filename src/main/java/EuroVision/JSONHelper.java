@@ -13,9 +13,9 @@ import org.json.simple.parser.ParseException;
 
 public class JSONHelper {
 
-	private static String COUNTRY = "country";
-	private static String VOTEDFOR = "votedFor";
-	private static String JSONStore = "/tmp/eurovision/";
+	static final String COUNTRY = "country";
+	static final String VOTEDFOR = "votedFor";
+	static final String JSONStore = "/tmp/eurovision/";
 
 	public static String loadJSONFile(String inputFilePath, String year) throws IOException, ParseException {
 		JSONArray jsonArray = readJSONData(inputFilePath);
@@ -34,7 +34,7 @@ public class JSONHelper {
 		}
 	}
 
-	private static JSONArray readJSONData(String filePath) {
+	static JSONArray readJSONData(String filePath) {
 		try {
 			JSONParser parser = new JSONParser();
 			Reader fileReader = new FileReader(filePath);
