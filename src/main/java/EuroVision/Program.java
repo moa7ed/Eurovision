@@ -24,7 +24,7 @@ public class Program {
 			   printVotesFor(args[1], args[2]);
 			   break;
 			case INVALID:
-				System.out.println("Invalid command to run, please run eigher: \n"
+				System.out.println("Invalid command to run, please run either: \n"
 						+ "   eurovision load <filePath> <year>\n"
 						+ "or eurovision results <country> <year>");
 		}
@@ -32,7 +32,7 @@ public class Program {
 	
 	public static void printVotesFor(String country, String year) {
 		JSONArray jsonArray = JSONHelper.readJSONData(JSONHelper.JSONStore + year + ".json");
-		if (jsonArray == null) {
+		if (jsonArray == null || jsonArray.isEmpty()) {
 			System.out.println("No data available for these parameters");
 			return;
 		}
@@ -45,6 +45,10 @@ public class Program {
 		    	votesCounts.put(voterForValue, votesCounts.getOrDefault(voterForValue, 0)+1);
 		    }
 	    }
+		if (votesCounts.isEmpty()) {
+			System.out.println("No votes from this country");
+			return;
+		}
 		for (String key : votesCounts.keySet()) {
 			String printStatement = votesCounts.get(key) + " ";
 		    if (votesCounts.get(key) == 1)

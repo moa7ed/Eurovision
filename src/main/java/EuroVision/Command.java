@@ -21,6 +21,8 @@ public class Command {
 				return false;
 			}
 		}
+		if (!parameters[1].matches("\\d\\d\\d\\d"))
+			return false;
 		return true;
 	}
 	

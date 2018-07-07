@@ -6,6 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.io.Reader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
@@ -16,6 +18,8 @@ public class JSONHelper {
 	static final String COUNTRY = "country";
 	static final String VOTEDFOR = "votedFor";
 	static final String JSONStore = "/tmp/eurovision/";
+	private static final Logger LOGGER = Logger.getLogger( JSONHelper.class.getName() );
+
 
 	public static String loadJSONFile(String inputFilePath, String year) throws IOException, ParseException {
 		JSONArray jsonArray = readJSONData(inputFilePath);
@@ -35,16 +39,18 @@ public class JSONHelper {
 
 	static JSONArray readJSONData(String filePath) {
 		try {
-			JSONParser parser = new JSONParser();
-			Reader fileReader = new FileReader(filePath);
-			return (JSONArray) parser.parse(fileReader); 
+			File file = new File(filePath);
+			if (file.exists()) {
+				JSONParser parser = new JSONParser();
+				Reader fileReader = new FileReader(filePath);
+				return (JSONArray) parser.parse(fileReader); 
+			}
 		} catch (ParseException e) {
-			e.printStackTrace();
-			return null;
+			LOGGER.log( Level.SEVERE, e.getMessage(), e);
 		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
+			LOGGER.log( Level.SEVERE, e.getMessage(), e);
 		}
+		return null;
 	}
 
 	private static void createNewVotesForYear(JSONArray jsonArray, String year) {
@@ -54,8 +60,7 @@ public class JSONHelper {
 			file.write(jsonArray.toJSONString());
 			file.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.log( Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
